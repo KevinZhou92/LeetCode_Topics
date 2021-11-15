@@ -29,3 +29,7 @@ class Solution:
             return end
         
         return -1
+
+"""
+Solution 2:
+"""
