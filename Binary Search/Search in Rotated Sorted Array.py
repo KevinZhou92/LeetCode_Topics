@@ -66,10 +66,11 @@ class Solution2:
         while start + 1 < end:
             mid = start + (end - start) // 2
             # edge case, what is array is ascending order, we need to find out the unsorted part
-            # we can use if nums[mid] > nums[start]:, since the arrary might not be rotated
+            # we cannot use if nums[mid] > nums[start]:, since the arrary might not be rotated
             # 
             # More explanation: originally, the array is not rotated and we have nums[mid] > nums[start]
-            # It would be impossible to simply set start = mid if nums[mid] > nums[start]
+            # It would be impossible to simply set start = mid if nums[mid] > nums[start] since it's the 
+            # same case no matter the array is rotated or not
             # But if nums[mid] > nums[end], then we must know right side of mid is unordered
             if nums[mid] > nums[end]:
                 start = mid
