@@ -57,3 +57,48 @@ class Solution:
             return -1
         
         return 1
+
+"""
+Solution2: Two Pointer
+1. Find the element in the array that is closed to the target and start with this element in the resulting array
+2. Fan out from the closest element to the left and to the right using two pointers
+
+Time Complexity: O(logn) + O(k)
+Space Complexity: O(1)
+"""
+class Solution2:
+    def findClosestElements(self, arr: List[int], k: int, x: int) -> List[int]:
+        closest_index = self.get_closest_index(arr, x)
+        left, right = closest_index - 1, closest_index + 1
+        res = [arr[closest_index]]
+        while left >= 0 and right < len(arr) and len(res) < k:
+            if abs(arr[left] - x) <= abs(arr[right] - x):
+                res.append(arr[left])
+                left -= 1
+            else:
+                res.append(arr[right])
+                right += 1
+        
+        while left >= 0 and len(res) < k:
+            res.append(arr[left])
+            left -= 1
+            
+        while right < len(arr) and len(res) < k:
+            res.append(arr[right])
+            right += 1
+            
+        return sorted(res)
+    
+    def get_closest_index(self, arr, target):
+        start, end = 0, len(arr) - 1
+        while start + 1 < end:
+            mid = start + (end - start) // 2
+            if arr[mid] > target:
+                end = mid
+            else:
+                start = mid
+                
+        if abs(arr[start] - target) <= abs(arr[end] - target):
+            return start
+        
+        return end
