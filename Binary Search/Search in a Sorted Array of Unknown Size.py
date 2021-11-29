@@ -1,4 +1,5 @@
 """
+Solution 1:
 Check Search in Rotated Sorted Array
 
 The only difference is we don't know the size of the array, so 

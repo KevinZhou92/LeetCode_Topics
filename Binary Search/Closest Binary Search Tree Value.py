@@ -1,5 +1,5 @@
 """
-Solution1: Binary Seach Tree, Binary Search
+Solution 1: Binary Seach Tree, Binary Search
 
 Time Complexity: O(logn)
 Space Complexity: O(1)

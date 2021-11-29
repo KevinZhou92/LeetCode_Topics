@@ -1,4 +1,5 @@
 """
+Solution 1:
 Two Sub Problems:
 1. Find fisrt occurence of target in sorted array
 2. Find last occurence of target in sorted array

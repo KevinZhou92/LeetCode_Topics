@@ -1,5 +1,5 @@
 """
-Solution1:
+Solution 1:
 1. Find the element in the array that is closed to the target
 2. Fan out from the closest element to the left and to the right, both for k step
 3. Compare the distance of 2k - 1 element and find the k closet
@@ -59,7 +59,7 @@ class Solution:
         return 1
 
 """
-Solution2: Two Pointer
+Solution 2: Two Pointer
 1. Find the element in the array that is closed to the target and start with this element in the resulting array
 2. Fan out from the closest element to the left and to the right using two pointers
 
