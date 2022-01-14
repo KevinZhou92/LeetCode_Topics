@@ -49,4 +49,27 @@ class Solution:
     
     def contains_duplicate(self, target, nums):
         return len([num for num in nums if num <= target]) > target
-        
+
+"""
+Solution 3:
+Exchange Numbers
+
+Start from index 0, move every number to the index [number - 1], since we have n + 1 numbers and the range
+of numbers is in [1, n], after we put the first occurence of the duplicate in the correct place, we will find
+that the number is already in place when we encounter the second occurence of the duplicate
+
+Time Complexity: O(n)
+Space Complexity: O(1)
+"""
+class Solution:
+    def findDuplicate(self, nums: List[int]) -> int:
+        index = 0
+        while True:
+            while nums[index] - 1 != index:
+                target_index = nums[index] - 1
+                if target_index != index and nums[target_index] == nums[index]:
+                    return nums[index]
+                nums[index], nums[target_index] = nums[target_index], nums[index]
+            index += 1
+                
+        return -1
