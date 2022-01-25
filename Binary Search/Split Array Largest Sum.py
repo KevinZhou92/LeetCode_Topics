@@ -21,7 +21,7 @@ class Solution:
         return res
 
     def search(self, nums, start_index, required_sum_count):
-        if required_array_count == 1:
+        if required_sum_count == 1:
             return [[sum(nums[start_index:])]]
 
         combination_sums = []
@@ -30,7 +30,7 @@ class Solution:
             if len(nums) - i < required_sum_count:
                 continue
             current_sum += nums[i]
-            for combination_sum in self.search(nums, i + 1, required_array_count - 1):
+            for combination_sum in self.search(nums, i + 1, required_sum_count - 1):
                 combination_sums.append(combination_sum + [current_sum])
 
         return combination_sums
