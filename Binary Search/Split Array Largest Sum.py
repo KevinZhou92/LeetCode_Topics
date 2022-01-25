@@ -61,14 +61,17 @@ Problem: MLE
 class Solution:
     def splitArray(self, nums: List[int], m: int) -> int:
         res = float('inf')
-        for combination_sum in self.search(nums, 0, m):
+        for combination_sum in self.search(nums, 0, m, {}):
             res = min(max(combination_sum), res)
 
         return res
 
-    def search(self, nums, start_index, required_sum_count):
+    def search(self, nums, start_index, required_sum_count, mems):
         if required_sum_count == 1:
             return [[sum(nums[start_index:])]]
+
+        if (start_index, required_sum_count) in mems:
+            return mems[(start_index, required_sum_count)]
 
         combination_sums = []
         current_sum = 0
@@ -76,7 +79,8 @@ class Solution:
             if len(nums) - i < required_sum_count:
                 continue
             current_sum += nums[i]
-            for combination_sum in self.search(nums, i + 1, required_sum_count - 1):
+            for combination_sum in self.search(nums, i + 1, required_sum_count - 1, mems):
                 combination_sums.append(combination_sum + [current_sum])
+        mems[(start_index, required_sum_count)] = combination_sums
 
         return combination_sums
