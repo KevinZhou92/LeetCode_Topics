@@ -118,20 +118,20 @@ class Solution:
 
         return end
 
-    def possible(self, guess, nums, required_count):
-        tmp_sum, index = 0, 0
+    def possible(self, guess, nums, required_splits):
+        current_sum, index = 0, 0
         while index < len(nums):
-            if nums[index] + tmp_sum <= guess:
-                tmp_sum += nums[index]
+            if nums[index] + current_sum <= guess:
+                current_sum += nums[index]
             else:
-                tmp_sum = nums[index]
-                required_count -= 1
+                current_sum = nums[index]
+                required_splits -= 1
             index += 1
 
-            if tmp_sum > guess:
+            if current_sum > guess:
                 return False
 
-            if required_count == 1:
+            if required_splits == 1:
                 return sum(nums[index - 1:]) <= guess
 
         return True
