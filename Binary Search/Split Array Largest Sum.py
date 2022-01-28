@@ -1,4 +1,5 @@
 """
+https://leetcode.com/problems/split-array-largest-sum/solution/
 Solution 1:
 Brute Force
 
@@ -87,6 +88,23 @@ class Solution:
 
 
 """
+Solution 1 - 2:
+Prefix + DFS Memorization + Prune
+
+Calculate a prefix sum array and then dfs the array to calculate for given [Start_Index, Remaining_Splits],
+what is the minimum maximum value in that subarray.
+
+
+Time Complexity: Each state is defined by the values currIndex and subarrayCount. 
+As such, there are N⋅M possible states, and we must visit almost every state in order to solve the original problem. 
+Each state (subproblem) requires O(N) time because we have a for loop from currIndex to N - subarrayCount. 
+Thus the total time complexity is equal to O(N^2 * M)
+ ⋅M).
+Space complexity : O(M * N) because we need to create a memorization matrix
+
+"""
+
+"""
 Solution 2:
 Binary Search + Loop(First hard question solved by myself!)
 
@@ -108,30 +126,57 @@ class Solution:
         start, end = 0, sum(nums)
         while start + 1 < end:
             guess = start + (end - start) // 2
-            if self.possible(guess, nums, m):
+            if self.possible(guess, nums, m - 1):
                 end = guess
             else:
                 start = guess
 
-        if self.possible(start, nums, m):
+        if self.possible(start, nums, m - 1):
             return start
 
         return end
 
-    def possible(self, guess, nums, required_splits):
-        current_sum, index = 0, 0
-        while index < len(nums):
-            if nums[index] + current_sum <= guess:
-                current_sum += nums[index]
+    def possible(self, guess, nums, remaining_splits):
+        current_sum = 0
+        for num in nums:
+            if num + current_sum <= guess:
+                current_sum += num
             else:
-                current_sum = nums[index]
-                required_splits -= 1
-            index += 1
+                current_sum = num
+                remaining_splits -= 1
 
             if current_sum > guess:
                 return False
 
-            if required_splits == 1:
-                return sum(nums[index - 1:]) <= guess
+        return remaining_splits >= 0
 
-        return True
+
+"""
+Solution 3:
+DP
+https://leetcode-cn.com/problems/split-array-largest-sum/solution/er-fen-cha-zhao-he-dong-tai-gui-hua-jie-fa-by-anti/
+
+Need to find the state transfer function. How to convert from small state to bigger state
+
+Time Complexity: O(n^m), where W is the sum of the array and n is the legth of the array
+Space complexity : O(nm)
+
+"""
+
+
+class Solution:
+    def splitArray(self, nums: List[int], m: int) -> int:
+        prefix_sums = [0]
+        for num in nums:
+            prefix_sums.append(prefix_sums[-1] + num)
+
+        dp = [[float('inf')] * (m + 1) for _ in range(len(nums) + 1)]
+        dp[0][0] = 0
+        for i in range(1, len(nums) + 1):
+            dp[i][1] = prefix_sums[i]
+            for subarray_cnt in range(2, min(i, m) + 1):
+                for j in range(i):
+                    dp[i][subarray_cnt] = min(dp[i][subarray_cnt], max(
+                        dp[j][subarray_cnt - 1], prefix_sums[i] - prefix_sums[j]))
+
+        return dp[len(nums)][m]
