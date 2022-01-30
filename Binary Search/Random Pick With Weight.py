@@ -60,3 +60,36 @@ class Solution:
 # Your Solution object will be instantiated and called as such:
 # obj = Solution(w)
 # param_1 = obj.pickIndex()
+
+"""
+Solution 1 - 1:
+Binary Search
+"""
+
+
+class Solution:
+
+    def __init__(self, w: List[int]):
+        self.prefix_sums = []
+        prefix_sum = 0
+        for weight in w:
+            prefix_sum += weight
+            self.prefix_sums.append(prefix_sum)
+        self.total_sum = prefix_sum
+
+    def pickIndex(self) -> int:
+        return self.search(self.prefix_sums, random.random() * self.total_sum)
+
+    def search(self, prefix_sums, target):
+        start, end = 0, len(prefix_sums) - 1
+        while start + 1 < end:
+            mid = start + (end - start) // 2
+            if prefix_sums[mid] >= target:
+                end = mid
+            else:
+                start = mid
+
+        if prefix_sums[start] >= target:
+            return start
+
+        return end
