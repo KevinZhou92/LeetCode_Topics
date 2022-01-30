@@ -104,6 +104,35 @@ Space complexity : O(M * N) because we need to create a memorization matrix
 
 """
 
+
+class Solution:
+    def splitArray(self, nums: List[int], m: int) -> int:
+        prefix_sums = [0] * (len(nums) + 1)
+        for i in range(len(nums) + 1):
+            prefix_sums[i] = prefix_sums[i - 1] + nums[i - 1]
+
+        return self.search(nums, 0, prefix_sums, m - 1, {})
+
+    def search(self, nums, start_index, prefix_sums, remaining_splits, mems):
+        if (start_index, remaining_splits) in mems:
+            return mems[(start_index, remaining_splits)]
+
+        if remaining_splits == 0:
+            return prefix_sums[-1] - prefix_sums[start_index]
+
+        res = float('inf')
+        for i in range(start_index, len(nums)):
+            current_sum = prefix_sums[i + 1] - prefix_sums[start_index]
+            res = min(res, max(current_sum, self.search(
+                nums, i + 1, prefix_sums, remaining_splits - 1, mems)))
+            if current_sum > res:
+                break
+
+        mems[(start_index, remaining_splits)] = res
+
+        return res
+
+
 """
 Solution 2:
 Binary Search + Loop(First hard question solved by myself!)
