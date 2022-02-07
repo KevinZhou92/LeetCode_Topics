@@ -86,7 +86,6 @@ Dynamic Programming
 https://leetcode-cn.com/problems/maximum-length-of-repeated-subarray/solution/zhe-yao-jie-shi-ken-ding-jiu-dong-liao-by-hyj8/
 
 https://segmentfault.com/a/1190000021665249
-https://codeantenna.com/a/mVwlWwTdHO
 https://www.cnblogs.com/r1-12king/p/15726654.html
 
 Time Complexity: O(m*n)

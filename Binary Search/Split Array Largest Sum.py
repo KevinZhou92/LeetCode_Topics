@@ -187,7 +187,7 @@ https://leetcode-cn.com/problems/split-array-largest-sum/solution/er-fen-cha-zha
 
 Need to find the state transfer function. How to convert from small state to bigger state
 
-Time Complexity: O(n^m), where W is the sum of the array and n is the legth of the array
+Time Complexity: O(nm^2)`
 Space complexity : O(nm)
 
 """
