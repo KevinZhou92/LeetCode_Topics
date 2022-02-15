@@ -131,3 +131,39 @@ class Solution:
                 cur = stack.pop().right
 
         return res
+
+
+"""
+Solution 2-2:
+A more intuitive iterative approach
+
+Time Complexity: O(n)
+Space complexity : O(n)
+
+"""
+
+
+class Solution:
+    def preorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+        res = []
+        if not root:
+            return res
+
+        # 0 not visited,
+        # 1 visited left
+        # 2 visited right
+        stack = [[root, 0]]
+        while stack:
+            cur = stack[-1]
+            if cur[1] == 0:
+                cur[1] = 1
+                res.append(cur[0].val)
+                if cur[0].left:
+                    stack.append([cur[0].left, 0])
+            elif cur[1] == 1:
+                cur[1] = 2
+                if cur[0].right:
+                    stack.append([cur[0].right, 0])
+            else:
+                stack.pop()
+        return res
