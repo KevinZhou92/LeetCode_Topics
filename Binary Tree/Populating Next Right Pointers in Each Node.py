@@ -106,9 +106,14 @@ class Solution:
 
 
 """
-Solution 3-1:
+Solution 3:
 
 Iterative Approach, this is a perfect binary tree, which makes the problem easier
+If we connect nodes on level N on level N-1, the nodes on level N will become a linkedlist
+
+We only move on to the level N+1 when we are done establishing the next pointers for the level N. 
+So, since we have access to all the nodes on a particular level via the next pointers, 
+we can use these next pointers to establish the connections for the next level or the level containing their children.
 
 Time Complexity: O(n)
 Space complexity : O(1)
