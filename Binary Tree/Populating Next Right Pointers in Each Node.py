@@ -103,3 +103,80 @@ class Solution:
             root.right, parentSibling.left if parentSibling else None)
 
         return root
+
+
+"""
+Solution 3-1:
+
+Iterative Approach, this is a perfect binary tree, which makes the problem easier
+
+Time Complexity: O(n)
+Space complexity : O(1)
+"""
+
+
+class Solution:
+    def connect(self, root: 'Optional[Node]') -> 'Optional[Node]':
+        if not root:
+            return None
+
+        leftMost = root
+        while leftMost.left:
+            cur = leftMost
+            while cur:
+                # nodes with same parent
+                cur.left.next = cur.right
+                # nodes with different parents
+                if cur.next:
+                    cur.right.next = cur.next.left
+                cur = cur.next
+            leftMost = leftMost.left
+
+        return root
+
+
+"""
+Solution 3-1:
+
+Iterative Approach, no need to use a stack, make use of the next pointer, we will connect all nodes
+at level N in level N-1
+
+
+Time Complexity: O(n)
+Space complexity : O(1)
+"""
+
+
+class Solution:
+    def connect(self, root: 'Optional[Node]') -> 'Optional[Node]':
+        if not root:
+            return None
+
+        leftMost = root
+        nextLeftMost = None
+        while leftMost:
+            nextLeftMost = None
+            cur = leftMost
+            # iterate nodes on same level to find the left most node in the next level
+            while cur:
+                if cur.left:
+                    nextLeftMost = cur.left
+                    break
+                elif cur.right:
+                    nextLeftMost = cur.right
+                    break
+                cur = cur.next
+
+            cur = leftMost
+            while cur:
+                # nodes with same parent
+                if cur.left:
+                    cur.left.next = cur.right
+                # nodes with different parent
+                if cur.right and cur.next:
+                    cur.right.next = cur.next.left
+                cur = cur.next
+
+            leftMost = nextLeftMost
+
+        return root
