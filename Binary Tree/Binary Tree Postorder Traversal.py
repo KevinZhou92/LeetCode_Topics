@@ -96,3 +96,41 @@ class Solution:
                 stack.pop()
 
         return res
+
+
+"""
+Solution 2-2:
+
+Iterative Approach With Constants
+
+Time Complexity: O(n)
+Space complexity : O(n)
+"""
+
+
+class Solution:
+    def postorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+        BOTH_UNVISITED = 0
+        LEFT_VISITED = 1
+        RIGHT_VISITED = 2
+
+        res = []
+        if not root:
+            return res
+
+        stack = [[root, BOTH_UNVISITED]]
+        while stack:
+            cur, cur_state = stack[-1]
+            if cur_state == BOTH_UNVISITED:
+                stack[-1][1] = LEFT_VISITED
+                if cur.left:
+                    stack.append([cur.left, BOTH_UNVISITED])
+            elif cur_state == LEFT_VISITED:
+                stack[-1][1] = RIGHT_VISITED
+                if cur.right:
+                    stack.append([cur.right, BOTH_UNVISITED])
+            else:
+                res.append(cur.val)
+                stack.pop()
+
+        return res
