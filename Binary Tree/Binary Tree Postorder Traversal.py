@@ -33,7 +33,8 @@ class Solution:
 
 """
 Solution 2:
-Iterative
+
+Iterative Approach
 
 Time Complexity: O()
 Space complexity : O()
@@ -132,5 +133,39 @@ class Solution:
             else:
                 res.append(cur.val)
                 stack.pop()
+
+        return res
+
+
+"""
+Solution 2-3:
+
+
+Time Complexity: O(n)
+Space complexity : O(n)
+"""
+
+
+class Solution:
+    def postorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+        res = []
+        if not root:
+            return res
+
+        stack = []
+        cur = root
+        while cur or stack:
+            while cur:
+                stack.append(cur)
+                if cur.left:
+                    cur = cur.left
+                else:
+                    cur = cur.right
+            cur = stack.pop()
+            res.append(cur.val)
+            if stack and stack[-1].left == cur:
+                cur = stack[-1].right
+            else:
+                cur = None
 
         return res
