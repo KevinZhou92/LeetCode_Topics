@@ -140,3 +140,56 @@ class Solution:
             q = parent_map[q]
 
         return q
+
+
+"""
+Solution 3:
+
+Get rid of the backtracking process in Solution 2-1.
+https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/solution/
+
+A little bit tricky to think of 
+
+
+Time Complexity: O(n)
+Space complexity : O(n)
+"""
+
+
+class Solution:
+    BOTH_UNVISITED = 0
+    LEFT_VISITED = 1
+    RIGHT_VISITED = 2
+
+    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+        if not root:
+            return None
+
+        stack = [[root, Solution.BOTH_UNVISITED]]
+        firstNodeFound = False
+        LCAIndex = None
+        while stack:
+            cur, cur_state = stack[-1]
+            if cur_state != Solution.RIGHT_VISITED:
+                if cur_state == Solution.BOTH_UNVISITED:
+                    if cur == p or cur == q:
+                        if not firstNodeFound:
+                            firstNodeFound = True
+                            LCAIndex = len(stack) - 1
+                        else:
+                            return stack[LCAIndex][0]
+
+                    child_node = cur.left
+                else:
+                    child_node = cur.right
+
+                stack[-1][1] += 1
+                if child_node:
+                    stack.append([child_node, Solution.BOTH_UNVISITED])
+
+            else:
+                if firstNodeFound and LCAIndex == len(stack) - 1:
+                    LCAIndex -= 1
+                stack.pop()
+
+        return None
