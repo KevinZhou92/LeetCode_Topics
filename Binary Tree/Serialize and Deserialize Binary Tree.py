@@ -116,7 +116,6 @@ Space complexity : O(n)
 
 
 class Codec:
-
     def serialize(self, root):
         """Encodes a tree to a single string.
 
@@ -125,7 +124,7 @@ class Codec:
         """
         res = []
         if not root:
-            return '[]'
+            return ''
 
         queue = deque([root])
         while queue:
@@ -143,7 +142,7 @@ class Codec:
             if not nonNull:
                 break
 
-        return '[' + ','.join(res) + ']'
+        return ','.join(res)
 
     def deserialize(self, data):
         """Decodes your encoded data to tree.
@@ -151,10 +150,10 @@ class Codec:
         :type data: str
         :rtype: TreeNode
         """
-        if not data or data == '[]':
+        if not data or data == '':
             return None
 
-        data = data[1:-1].split(',')
+        data = data.split(',')
         root = TreeNode(int(data[0]))
         queue = deque([root])
         curIndex = 1
@@ -177,7 +176,130 @@ class Codec:
         return root
 
 
-# Your Codec object will be instantiated and called as such:
-# ser = Codec()
-# deser = Codec()
-# ans = deser.deserialize(ser.serialize(root))
+"""
+Solution 2:
+
+DFS
+Preorder Traversal
+
+Time Complexity: O(n)
+Space complexity : O(n)
+"""
+
+
+class Codec:
+
+    def serialize(self, root):
+        """Encodes a tree to a single string.
+
+        :type root: TreeNode
+        :rtype: str
+        """
+        if not root:
+            return ''
+
+        res = []
+        self._serialize(root, res)
+
+        return ','.join(res)
+
+    def _serialize(self, node, res):
+        if not node:
+            return res.append('#')
+
+        res.append(str(node.val))
+        self._serialize(node.left, res)
+        self._serialize(node.right, res)
+
+    def deserialize(self, data):
+        """Decodes your encoded data to tree.
+
+        :type data: str
+        :rtype: TreeNode
+        """
+        if not data:
+            return None
+
+        data = data.split(',')
+        nodeVals = deque(data)
+
+        return self._deserialize(nodeVals)
+
+    def _deserialize(self, nodeVals):
+        if not nodeVals:
+            return None
+
+        nodeVal = nodeVals.popleft()
+        node = TreeNode(int(nodeVal)) if nodeVal != '#' else None
+        if not node:
+            return
+
+        node.left = self._deserialize(nodeVals)
+        node.right = self._deserialize(nodeVals)
+
+        return node
+
+
+"""
+Solution 2-2:
+
+DFS
+Postorder Traversal
+
+!!!Note for post order we need to construct right tree and then left tree
+
+Time Complexity: O(n)
+Space complexity : O(n)
+"""
+
+
+class Codec:
+
+    def serialize(self, root):
+        """Encodes a tree to a single string.
+
+        :type root: TreeNode
+        :rtype: str
+        """
+        if not root:
+            return ''
+
+        res = []
+        self._serialize(root, res)
+
+        return ','.join(res)
+
+    def _serialize(self, node, res):
+        if not node:
+            return res.append('#')
+
+        self._serialize(node.left, res)
+        self._serialize(node.right, res)
+        res.append(str(node.val))
+
+    def deserialize(self, data):
+        """Decodes your encoded data to tree.
+
+        :type data: str
+        :rtype: TreeNode
+        """
+        if not data:
+            return None
+
+        nodeVals = data.split(',')
+
+        return self._deserialize(nodeVals)
+
+    def _deserialize(self, nodeVals):
+        if not nodeVals:
+            return None
+
+        nodeVal = nodeVals.pop()
+        node = TreeNode(int(nodeVal)) if nodeVal != '#' else None
+        if not node:
+            return node
+
+        node.right = self._deserialize(nodeVals)
+        node.left = self._deserialize(nodeVals)
+
+        return node
