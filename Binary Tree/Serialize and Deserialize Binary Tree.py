@@ -128,19 +128,15 @@ class Codec:
 
         queue = deque([root])
         while queue:
-            nonNull = False
             size = len(queue)
             for _ in range(size):
                 cur = queue.popleft()
-                res.append(str(cur.val) if cur else 'null')
-                if cur:
-                    if cur.left or cur.right:
-                        nonNull = True
-                    queue.append(cur.left)
-                    queue.append(cur.right)
-
-            if not nonNull:
-                break
+                if cur == None:
+                    res.append('#')
+                    continue
+                res.append(str(cur.val))
+                queue.append(cur.left)
+                queue.append(cur.right)
 
         return ','.join(res)
 
@@ -165,11 +161,11 @@ class Codec:
                 cur = queue.popleft()
                 if cur:
                     cur.left = TreeNode(
-                        int(data[curIndex])) if data[curIndex] != 'null' else None
+                        int(data[curIndex])) if data[curIndex] != '#' else None
                     queue.append(cur.left)
                     curIndex += 1
                     cur.right = TreeNode(
-                        int(data[curIndex])) if data[curIndex] != 'null' else None
+                        int(data[curIndex])) if data[curIndex] != '#' else None
                     queue.append(cur.right)
                     curIndex += 1
 
