@@ -36,8 +36,8 @@ Solution 1:
 BFS
 Top-down
 
-Time Complexity: O()
-Space complexity : O()
+Time Complexity: O(n)
+Space complexity : O(n)
 """
 
 
@@ -48,13 +48,11 @@ class Solution:
 
         queue = deque([root])
         while queue:
-            size = len(queue)
-            for _ in range(size):
-                node = queue.popleft()
-                if not node:
-                    continue
-                node.left, node.right = node.right, node.left
-                queue.append(node.left)
-                queue.append(node.right)
+            node = queue.popleft()
+            if not node:
+                continue
+            node.left, node.right = node.right, node.left
+            queue.append(node.left)
+            queue.append(node.right)
 
         return root

@@ -12,6 +12,7 @@ class Solution:
     def __init__(self, nums: List[int]):
         index_map = {}
         for index, num in enumerate(nums):
+            # list concatenation will be a deep copy, high complexity
             index_map[num] = index_map.get(num, []) + [index]
         self.index_map = index_map
 
@@ -28,7 +29,7 @@ class Solution:
 # param_1 = obj.pick(target)
 
 """
-Solution 1:
+Solution 2:
 Reservior Sampling
 
 Proof: https://leetcode-cn.com/problems/random-pick-index/solution/398-sui-ji-shu-suo-yin-shui-tang-chou-ya-ud8b/
