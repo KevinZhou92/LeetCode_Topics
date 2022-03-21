@@ -171,3 +171,55 @@ class Solution:
             else:
                 stack.pop()
         return res
+
+
+"""
+Solution 3:
+
+Morris Traversal
+https://leetcode.com/problems/binary-tree-preorder-traversal/solution/
+
+ we visit each predecessor exactly twice descending down from the node, 
+ thus the time complexity is \mathcal{O}(N)O(N), where NN is the number of nodes, i.e. the size of tree.
+
+Time Complexity: O(n)
+Space complexity : O(n)
+"""
+
+
+class Solution:
+    def preorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+        # Morris Traversal
+        res = []
+        if not root:
+            return res
+
+        cur = root
+        prev = None
+        while cur:
+            if cur.left:
+                prev = cur.left
+                # Here we can't use while prev.right and prev.right.right
+                # Assue a tree is a linked list and only have left subtrees
+                #       3
+                #      /
+                #     2
+                #    /
+                #   1
+                # If current node is 1, prev.right.right will point to 3, which will
+                # result in a dead loop
+                while prev.right and prev.right != cur:
+                    prev = prev.right
+
+                if prev.right == cur:
+                    prev.right = None
+                    cur = cur.right
+                else:
+                    res.append(cur.val)
+                    prev.right = cur
+                    cur = cur.left
+            else:
+                res.append(cur.val)
+                cur = cur.right
+
+        return res
