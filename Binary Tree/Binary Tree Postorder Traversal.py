@@ -169,3 +169,45 @@ class Solution:
                 cur = None
 
         return res
+
+
+"""
+Solution 3:
+
+Morris
+PostOrder is a little bit tricky, we are modifying the preorder morris traversal to get the postorder result.
+
+In Preorder, we are doing root-left-right, to get the postorder from it, we need to traverse the tree useing
+root-right-left and then reverse the result, it will become left-right-root, which is the postorder.
+
+Time Complexity: O(n)
+Space complexity : O(1)
+"""
+
+
+class Solution:
+    def postorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+        res = []
+        if not root:
+            return res
+
+        cur = root
+        prev = None
+        while cur:
+            if cur.right:
+                prev = cur.right
+                while prev.left and prev.left != cur:
+                    prev = prev.left
+
+                if prev.left == cur:
+                    prev.left = None
+                    cur = cur.left
+                else:
+                    res.append(cur.val)
+                    prev.left = cur
+                    cur = cur.right
+            else:
+                res.append(cur.val)
+                cur = cur.left
+
+        return reversed(res)

@@ -93,3 +93,41 @@ class Solution:
                 stack.pop()
 
         return res
+
+
+"""
+Solution 3:
+
+Morris Traversal
+
+Time Complexity: O(n)
+Space complexity : O(n)
+"""
+
+
+class Solution:
+    def inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
+        res = []
+        if not root:
+            return res
+
+        cur = root
+        prev = None
+        while cur:
+            if cur.left:
+                prev = cur.left
+                while prev.right and prev.right != cur:
+                    prev = prev.right
+
+                if prev.right == cur:
+                    res.append(cur.val)
+                    prev = None
+                    cur = cur.right
+                else:
+                    prev.right = cur
+                    cur = cur.left
+            else:
+                res.append(cur.val)
+                cur = cur.right
+
+        return res
