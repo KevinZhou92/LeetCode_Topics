@@ -6,7 +6,7 @@ Find the max value in the array and use it as the root of the tree,
 then construct left and subtree from left subarray and right subarray,
 follow the same manner while building the left and right subtrees.
 
-Time Complexity: O(nlogn)
+Time Complexity: O(n^2)
 Space complexity : O(n)
 """
 # Definition for a binary tree node.
