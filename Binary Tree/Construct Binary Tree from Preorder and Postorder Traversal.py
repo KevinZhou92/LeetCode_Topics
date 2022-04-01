@@ -191,13 +191,13 @@ class Solution:
 Solution 1-4:
 
 DFS Correct Version 2
-
+Ref: https://labuladong.github.io/algo/2/20/35/
 
 !!! Most Important Thing is: if the leftRootVal and rightRootVal collide, we need to make a decision whether to 
 use the value to build the left treenode or to build the right treenode
 
-Time Complexity: O()
-Space complexity : O()
+Time Complexity: O(n)
+Space complexity : O(n)
 """
 
 
