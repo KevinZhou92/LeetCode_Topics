@@ -50,17 +50,65 @@ class Solution:
 
         return len(preElements)
 
+
+"""
+Solution 1-2:
+
+DFS
+
+Compare to first solution, we build a val to index map from the postOrder list before we get into the recursion, therefore we can avoid
+having to iterate over the array over and over again to count the size of the left subtree in each recursion.
+
+We can just find the corresponding left root val in the postOrder list and then count how many elements are in the left subtree, cause postOrder traversal
+always follow left-right-root order.
+
+Time Complexity: O(n)
+Space complexity : O(n)
+"""
+
+
+class Solution:
+    def constructFromPrePost(self, preorder: List[int], postorder: List[int]) -> Optional[TreeNode]:
+        if len(preorder) != len(postorder):
+            return None
+
+        postOrderValToIndex = {
+            val: index for index, val in enumerate(postorder)}
+
+        return self.constructTree(preorder, 0, len(preorder) - 1, postorder, 0, len(postorder) - 1, postOrderValToIndex)
+
+    def constructTree(self, preOrder, preStart, preEnd, postOrder, postStart, postEnd, postOrderValToIndex):
+        if preStart == preEnd:
+            return TreeNode(preOrder[preStart])
+
+        if preStart > preEnd:
+            return None
+
+        root = TreeNode(preOrder[preStart])
+        leftRootVal = preOrder[preStart + 1]
+        leftTreeSize = postOrderValToIndex[leftRootVal] - postStart + 1
+
+        root.left = self.constructTree(preOrder, preStart + 1, preStart + leftTreeSize,
+                                       postOrder, postStart, postStart + leftTreeSize - 1, postOrderValToIndex)
+        root.right = self.constructTree(preOrder, preStart + leftTreeSize + 1,
+                                        preEnd, postOrder, postStart + leftTreeSize, postEnd, postOrderValToIndex)
+
+        return root
+
+
 """
 Solution 1-2:
 
 DFS Wrong Version
 
-I made lots of mistakes in this solution, the tricky thing is between line 74-81
+I made lots of mistakes in this solution, the tricky thing is between line 123-130
 I'm checking both preStart/preEnd and postStart/postEnd
 
 Time Complexity: O()
 Space complexity : O()
 """
+
+
 class Solution:
     def constructFromPrePost(self, preorder: List[int], postorder: List[int]) -> Optional[TreeNode]:
         if len(preorder) != len(postorder):
@@ -68,33 +116,33 @@ class Solution:
 
         preValToIndex = {val: index for index, val in enumerate(preorder)}
         postValToIndex = {val: index for index, val in enumerate(postorder)}
-        
+
         return self.constructTree(preorder, 0, len(preorder) - 1, postorder, 0, len(postorder) - 1, preValToIndex, postValToIndex)
-    
+
     def constructTree(self, preorder, preStart, preEnd, postorder, postStart, postEnd, preValToIndex, postValToIndex):
         if preStart == preEnd:
             return TreeNode(preorder[preStart])
-        
+
         if postStart == postEnd:
             return TreeNode(postorder[postStart])
-        
+
         if preStart > preEnd or postStart > postEnd:
             return None
-        
+
         root = TreeNode(preorder[preStart])
         leftRootVal = preorder[preStart + 1]
         rightRootVal = postorder[postEnd - 1]
 
         leftRootIndex = postValToIndex[leftRootVal]
         rightRootIndex = preValToIndex[rightRootVal]
-        
-        root.left = self.constructTree(preorder, preStart + 1, rightRootIndex - 1, postorder, postStart, leftRootIndex, preValToIndex, postValToIndex)
-        root.right = self.constructTree(preorder, rightRootIndex, preEnd, postorder, leftRootIndex + 1, postEnd - 1, preValToIndex, postValToIndex)
-        
+
+        root.left = self.constructTree(preorder, preStart + 1, rightRootIndex - 1,
+                                       postorder, postStart, leftRootIndex, preValToIndex, postValToIndex)
+        root.right = self.constructTree(preorder, rightRootIndex, preEnd, postorder,
+                                        leftRootIndex + 1, postEnd - 1, preValToIndex, postValToIndex)
+
         return root
-        
-                             
-        
+
 
 """
 Solution 1-3:
@@ -102,8 +150,8 @@ Solution 1-3:
 DFS Correct Version 1
 
 
-Time Complexity: O()
-Space complexity : O()
+Time Complexity: O(n)
+Space complexity : O(n)
 """
 
 
@@ -138,6 +186,7 @@ class Solution:
 
         return root
 
+
 """
 Solution 1-4:
 
@@ -150,6 +199,8 @@ use the value to build the left treenode or to build the right treenode
 Time Complexity: O()
 Space complexity : O()
 """
+
+
 class Solution:
     def constructFromPrePost(self, preorder: List[int], postorder: List[int]) -> Optional[TreeNode]:
         if len(preorder) != len(postorder):
@@ -157,27 +208,26 @@ class Solution:
 
         preValToIndex = {val: index for index, val in enumerate(preorder)}
         postValToIndex = {val: index for index, val in enumerate(postorder)}
-        
+
         return self.constructTree(preorder, 0, len(preorder) - 1, postorder, 0, len(postorder) - 1, preValToIndex, postValToIndex)
-    
+
     def constructTree(self, preorder, preStart, preEnd, postorder, postStart, postEnd, preValToIndex, postValToIndex):
         if postStart == postEnd:
             return TreeNode(postorder[postStart])
-        
-        if  postStart > postEnd:
+
+        if postStart > postEnd:
             return None
-        
+
         root = TreeNode(preorder[preStart])
         leftRootVal = preorder[preStart + 1]
         rightRootVal = postorder[postEnd - 1]
 
         leftRootIndex = postValToIndex[leftRootVal]
         rightRootIndex = preValToIndex[rightRootVal]
-        
-        root.left = self.constructTree(preorder, preStart + 1, rightRootIndex - 1, postorder, postStart, leftRootIndex, preValToIndex, postValToIndex)
-        root.right = self.constructTree(preorder, rightRootIndex, preEnd, postorder, leftRootIndex + 1, postEnd - 1, preValToIndex, postValToIndex)
-        
+
+        root.left = self.constructTree(preorder, preStart + 1, rightRootIndex - 1,
+                                       postorder, postStart, leftRootIndex, preValToIndex, postValToIndex)
+        root.right = self.constructTree(preorder, rightRootIndex, preEnd, postorder,
+                                        leftRootIndex + 1, postEnd - 1, preValToIndex, postValToIndex)
+
         return root
-        
-                             
-        
