@@ -116,6 +116,7 @@ Space complexity : O(n)
 
 
 class Codec:
+
     def serialize(self, root):
         """Encodes a tree to a single string.
 
@@ -123,20 +124,15 @@ class Codec:
         :rtype: str
         """
         res = []
-        if not root:
-            return ''
-
         queue = deque([root])
         while queue:
-            size = len(queue)
-            for _ in range(size):
-                cur = queue.popleft()
-                if cur == None:
-                    res.append('#')
-                    continue
-                res.append(str(cur.val))
-                queue.append(cur.left)
-                queue.append(cur.right)
+            cur = queue.popleft()
+            if not cur:
+                res.append('#')
+                continue
+            res.append(str(cur.val))
+            queue.append(cur.left)
+            queue.append(cur.right)
 
         return ','.join(res)
 
@@ -146,28 +142,28 @@ class Codec:
         :type data: str
         :rtype: TreeNode
         """
-        if not data or data == '':
+        if data == '#':
             return None
 
-        data = data.split(',')
-        root = TreeNode(int(data[0]))
+        nodes = data.split(',')
+        root = TreeNode(nodes[0])
+
+        index = 1
         queue = deque([root])
-        curIndex = 1
-        while queue:
-            size = len(queue)
-            if curIndex >= len(data):
-                break
-            for offset in range(size):
-                cur = queue.popleft()
-                if cur:
-                    cur.left = TreeNode(
-                        int(data[curIndex])) if data[curIndex] != '#' else None
-                    queue.append(cur.left)
-                    curIndex += 1
-                    cur.right = TreeNode(
-                        int(data[curIndex])) if data[curIndex] != '#' else None
-                    queue.append(cur.right)
-                    curIndex += 1
+        while index < len(nodes):
+            cur = queue.popleft()
+            if nodes[index] == '#':
+                cur.left = None
+            else:
+                cur.left = TreeNode(nodes[index])
+                queue.append(cur.left)
+            index += 1
+            if nodes[index] == '#':
+                cur.right = None
+            else:
+                cur.right = TreeNode(nodes[index])
+                queue.append(cur.right)
+            index += 1
 
         return root
 
