@@ -136,7 +136,7 @@ class Solution:
             ancestors.add(p)
             p = parent_map[p]
 
-        while q not in ancstors:
+        while q not in ancestors:
             q = parent_map[q]
 
         return q
