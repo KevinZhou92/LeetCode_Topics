@@ -5,37 +5,30 @@ DFS
 
 This solution can be easily retrieved if we are solving the first one using recursion
 https://leetcode.com/problems/unique-binary-search-trees-ii/solution/
+https://leetcode.cn/problems/unique-binary-search-trees-ii/solution/bu-tong-de-er-cha-sou-suo-shu-ii-by-leetcode-solut/
 
-
-Time Complexity: O()
-Space complexity : O()
+Time Complexity: O(Catlan Numbers)
+Space complexity : O(Catlan Numbers)
 """
 
 
 class Solution:
     def generateTrees(self, n: int) -> List[Optional[TreeNode]]:
-        if n < 1:
-            return [None]
-
         return self.buildTrees(1, n)
 
     def buildTrees(self, start, end):
         if start > end:
             return [None]
 
-        if start == end:
-            return [TreeNode(start)]
-
         res = []
         for rootVal in range(start, end + 1):
-            root = TreeNode(rootVal)
-            leftSubTrees = self.buildTrees(start, rootVal - 1)
-            rightSubTrees = self.buildTrees(rootVal + 1, end)
-            for leftSubTree in leftSubTrees:
-                for rightSubtree in rightSubTrees:
-                    root.left = leftSubTree
-                    root.right = rightSubtree
-                    res.append(root)
+            leftTrees = self.buildTrees(start, rootVal - 1)
+            rightTrees = self.buildTrees(rootVal + 1, end)
+            for lTree in leftTrees:
+                for rTree in rightTrees:
                     root = TreeNode(rootVal)
+                    root.left = lTree
+                    root.right = rTree
+                    res.append(root)
 
         return res
