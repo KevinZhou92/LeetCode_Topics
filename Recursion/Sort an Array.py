@@ -92,3 +92,44 @@ class Solution:
 
         for index in range(start, end):
             nums[index] = temp[index]
+
+
+"""
+Solution 3:
+
+Quick Sort
+
+
+Time Complexity: O(nlogn) worst case O(n^2)
+Space complexity : O(n)
+"""
+
+
+class Solution:
+    def sortArray(self, nums: List[int]) -> List[int]:
+        if not nums:
+            return
+        self.qSort(nums, 0, len(nums) - 1)
+
+        return nums
+
+    def qSort(self, nums, start, end):
+        if start >= end:
+            return
+
+        pivotValue = nums[(start + end) // 2]
+        left, right = start, end
+        while left <= right:
+            while left <= right and nums[left] < pivotValue:
+                left += 1
+
+            while left <= right and nums[right] > pivotValue:
+                right -= 1
+
+            if left <= right:
+                nums[left], nums[right] = nums[right], nums[left]
+                left += 1
+                right -= 1
+
+        self.qSort(nums, start, right)
+        self.qSort(nums, left, end)
