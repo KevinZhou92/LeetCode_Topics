@@ -8,8 +8,8 @@ Keep searching in the sub matrix.
 The tricky part is the border of the matrix
 http://bookshadow.com/weblog/2015/07/23/leetcode-search-2d-matrix-ii/
 
-Time Complexity: O()
-Space complexity : O()
+Time Complexity: O(mn)
+Space complexity : O(min(logm, logn))
 """
 
 
