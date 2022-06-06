@@ -3,6 +3,8 @@ Solution 1:
 
 DFS
 https://leetcode.com/problems/robot-room-cleaner/
+https://www.cnblogs.com/grandyang/p/9988250.html
+http://www.noteanddata.com/leetcode-489-Robot-Room-Cleaner-java-solution-note.html
 
 Time Complexity: O()
 Space complexity : O()
