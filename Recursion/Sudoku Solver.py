@@ -89,14 +89,14 @@ class Solution:
         newColIndex = 0 if colIndex + 1 == len(board[0]) else colIndex + 1
         if board[rowIndex][colIndex] != '.':
             return self.solve(board, newRowIndex, newColIndex)
-        else:
-            for candidate in '123456789':
-                if not self.check(board, rowIndex, colIndex, candidate):
-                    continue
-                board[rowIndex][colIndex] = str(candidate)
-                if self.solve(board, newRowIndex, newColIndex):
-                    return True
-                board[rowIndex][colIndex] = '.'
+
+        for candidate in '123456789':
+            if not self.check(board, rowIndex, colIndex, candidate):
+                continue
+            board[rowIndex][colIndex] = str(candidate)
+            if self.solve(board, newRowIndex, newColIndex):
+                return True
+            board[rowIndex][colIndex] = '.'
 
         return False
 
