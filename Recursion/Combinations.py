@@ -14,17 +14,18 @@ class Solution:
         if k == 0 or n == 0:
             return []
 
+        # start from 1, add each number to list and back track,
+        # add entire list when there is k elements in the list and return
         self.res = []
-        self.search(n, k, 1, 0, [])
-
+        self.search(n, 1, k, [])
         return self.res
 
-    def search(self, n, k, startNum, count, curList):
-        if count == k:
-            self.res.append(copy.copy(curList))
+    def search(self, n, startNum, totalCount, res):
+        if len(res) == totalCount:
+            self.res.append(copy.copy(res))
             return
 
-        for num in range(startNum, n + 1):
-            curList.append(num)
-            self.search(n, k, num + 1, count + 1, curList)
-            curList.pop()
+        for candidate in range(startNum, n + 1):
+            res.append(candidate)
+            self.search(n, candidate + 1, totalCount, res)
+            res.pop()
