@@ -64,3 +64,46 @@ class Solution:
         return max(minHeight * (end - start + 1),
                    self.calculateArea(heights, start, minIndex - 1),
                    self.calculateArea(heights, minIndex + 1, end))
+
+
+"""
+Solution 3:
+https://leetcode.com/problems/largest-rectangle-in-histogram/solution/
+
+Be careful with edge cases
+
+Time Complexity: O(n)
+Space complexity : O(n)
+"""
+
+
+class Solution:
+    def largestRectangleArea(self, heights: List[int]) -> int:
+        res = 0
+        if not heights:
+            return res
+
+        # index, value
+        # monolithic stack(increasing order)
+        # we need to know the left limit and right limit for a bar
+        stack = [(-1, -1)]
+        for index, height in enumerate(heights):
+            # keep pushing if the stack is increasing
+            # if the cur height is smaller or equal to the top of the stack
+            # we known the right limit for all previous bars is the cur index
+            # we should calculate all values for previous bars
+            while stack[-1][1] >= height:
+                barIndex, barHeight = stack.pop()
+                leftIndex = stack[-1][0]
+                res = max(res, barHeight * (index - leftIndex - 1))
+            stack.append((index, height))
+
+        # if the height of bar keeps increasing, we need to calculate the remaining bars
+        # in the stack
+        # the right limit will always be the length of the height array
+        while stack[-1][1] >= 0:
+            barIndex, barHeight = stack.pop()
+            leftIndex = stack[-1][0]
+            res = max(res, barHeight * (len(heights) - leftIndex - 1))
+
+        return res
