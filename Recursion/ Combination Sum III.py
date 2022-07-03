@@ -7,8 +7,8 @@ This is deviated from LeetCode 77. LC77 only asks us for possible combinations, 
 asks us to make each combination sum up to a target value, we just need to add this constraint
 in the backtracking check and that is it.
 
-Time Complexity: O()
-Space complexity : O(n)
+Time Complexity: O(C(9, k) * k), There is C(9, k) combs and we use O(k) to copy each res
+Space complexity : O(k)
 """
 
 
