@@ -3,7 +3,7 @@ Solution 1:
 
 Backtracking
 
-Time Complexity: O(4^n)
+Time Complexity: O(4^n * n)
 Space complexity : O(n)
 """
 
