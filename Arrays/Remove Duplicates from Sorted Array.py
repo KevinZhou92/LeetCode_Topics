@@ -3,6 +3,10 @@ Solution 1:
 
 Two Pointer
 
+
+First Index is responsible for writing unique values in our input array, 
+while Second Index will read the input array and pass all the distinct elements to First Index.
+
 Time Complexity: O(n)
 Space complexity : O(1)
 """
