@@ -29,3 +29,4 @@ class Solution:
             res.append(candidate)
             self.search(n, candidate + 1, totalCount, res)
             res.pop()
+
